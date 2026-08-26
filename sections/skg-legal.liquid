@@ -1,0 +1,125 @@
+{%- comment -%}
+  Skingroup — Legal / Info Page
+  Section file: sections/skg-legal.liquid
+  Template: templates/page.skg-legal.json
+  A clean, readable layout for policy pages (privacy, terms, shipping,
+  returns, product authenticity, Rx handling). The body copy is edited in
+  Shopify Admin → Pages → (page) using the rich-text editor; this section
+  renders page.title + page.content with Skingroup typography and an
+  optional sidebar of related links.
+{%- endcomment -%}
+
+<section class="skg-lg" style="--brand:#01614a; --ink:#121212; --hairline:#e7e0d6; --bone:#fbf9f7;">
+  <div class="skg-lg__shell">
+
+    {%- if section.settings.show_breadcrumb -%}
+      <nav class="skg-lg__crumb" aria-label="Breadcrumb">
+        <a href="{{ section.settings.home_link | default: '/' }}">Inicio</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ page.title | escape }}</span>
+      </nav>
+    {%- endif -%}
+
+    {%- assign has_sidebar = false -%}
+    {%- for block in section.blocks -%}{%- if block.type == 'link' and block.settings.label != blank -%}{%- assign has_sidebar = true -%}{%- endif -%}{%- endfor -%}
+
+    <div class="skg-lg__grid{% if has_sidebar %} skg-lg__grid--with-side{% endif %}">
+      <article class="skg-lg__main">
+        <h1 class="skg-lg__title">{{ page.title | escape }}</h1>
+        {%- if section.settings.intro != blank -%}
+          <p class="skg-lg__intro">{{ section.settings.intro | escape }}</p>
+        {%- endif -%}
+        <div class="skg-lg__body">
+          {{ page.content }}
+        </div>
+      </article>
+
+      {%- if has_sidebar -%}
+        <aside class="skg-lg__side">
+          {%- if section.settings.side_title != blank -%}
+            <h2 class="skg-lg__side-title">{{ section.settings.side_title | escape }}</h2>
+          {%- endif -%}
+          <ul class="skg-lg__side-list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'link' and block.settings.label != blank -%}
+                <li {{ block.shopify_attributes }}>
+                  <a href="{{ block.settings.url | default: '#' }}">{{ block.settings.label | escape }}</a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skg-lg { font-family:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink); }
+  .skg-lg__shell { max-width:1100px; margin:0 auto; padding:32px 16px 80px; }
+  .skg-lg__crumb { font-size:12px; color:rgba(18,18,18,.55); margin-bottom:24px; display:flex; gap:8px; align-items:center; }
+  .skg-lg__crumb a { color:var(--brand); text-decoration:none; }
+  .skg-lg__crumb a:hover { text-decoration:underline; }
+  .skg-lg__grid { display:grid; grid-template-columns:1fr; gap:40px; }
+  .skg-lg__title { font-size:clamp(28px,4vw,40px); font-weight:800; text-transform:uppercase;
+    letter-spacing:-.01em; margin:0 0 16px; }
+  .skg-lg__intro { font-size:16px; line-height:1.7; color:rgba(18,18,18,.7); margin:0 0 32px;
+    max-width:680px; }
+  .skg-lg__body { font-size:15px; line-height:1.75; color:rgba(18,18,18,.85); max-width:680px; }
+  .skg-lg__body h2 { font-size:20px; font-weight:700; margin:32px 0 12px; }
+  .skg-lg__body h3 { font-size:17px; font-weight:700; margin:28px 0 10px; }
+  .skg-lg__body p { margin:0 0 16px; }
+  .skg-lg__body ul, .skg-lg__body ol { margin:0 0 16px; padding-left:22px; }
+  .skg-lg__body li { margin:6px 0; }
+  .skg-lg__body a { color:var(--brand); text-decoration:underline; }
+  .skg-lg__body strong { font-weight:700; }
+  .skg-lg__side { background:var(--bone); border:1px solid var(--hairline); border-radius:16px; padding:24px; }
+  .skg-lg__side-title { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.16em;
+    margin:0 0 16px; color:var(--brand); }
+  .skg-lg__side-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .skg-lg__side-list a { font-size:14px; color:var(--ink); text-decoration:none; }
+  .skg-lg__side-list a:hover { color:var(--brand); text-decoration:underline; }
+  @media (min-width:990px){
+    .skg-lg__grid--with-side { grid-template-columns:1fr 280px; gap:48px; align-items:start; }
+    .skg-lg__side { position:sticky; top:96px; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Skingroup Legal Page",
+  "tag": "section",
+  "class": "section-skg-lg",
+  "settings": [
+    { "type": "header", "content": "Encabezado" },
+    { "type": "checkbox", "id": "show_breadcrumb", "label": "Mostrar ruta de navegación", "default": true },
+    { "type": "url", "id": "home_link", "label": "Enlace a Inicio" },
+    { "type": "textarea", "id": "intro", "label": "Entradilla (opcional)" },
+    { "type": "header", "content": "Enlaces relacionados" },
+    { "type": "text", "id": "side_title", "label": "Título del panel", "default": "Políticas y ayuda" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Enlace relacionado",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto del enlace" },
+        { "type": "url", "id": "url", "label": "URL del enlace" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skingroup Legal Page",
+      "blocks": [
+        { "type": "link", "settings": { "label": "Aviso de Privacidad", "url": "/pages/aviso-de-privacidad" } },
+        { "type": "link", "settings": { "label": "Términos y Condiciones", "url": "/pages/terminos" } },
+        { "type": "link", "settings": { "label": "Envíos y Entregas", "url": "/pages/envios" } },
+        { "type": "link", "settings": { "label": "Devoluciones", "url": "/pages/devoluciones" } },
+        { "type": "link", "settings": { "label": "Productos Auténticos", "url": "/pages/productos-autenticos" } },
+        { "type": "link", "settings": { "label": "Recetas (Rx)", "url": "/pages/recetas" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
