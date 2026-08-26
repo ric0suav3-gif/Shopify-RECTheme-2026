@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "skg-legal",
+      "settings": {
+        "show_breadcrumb": true,
+        "side_title": "Políticas y ayuda"
+      },
+      "blocks": {
+        "l1": { "type": "link", "settings": { "label": "Aviso de Privacidad", "url": "/pages/aviso-de-privacidad" } },
+        "l2": { "type": "link", "settings": { "label": "Términos y Condiciones", "url": "/pages/terminos" } },
+        "l3": { "type": "link", "settings": { "label": "Envíos y Entregas", "url": "/pages/envios" } },
+        "l4": { "type": "link", "settings": { "label": "Devoluciones", "url": "/pages/devoluciones" } },
+        "l5": { "type": "link", "settings": { "label": "Productos Auténticos", "url": "/pages/productos-autenticos" } },
+        "l6": { "type": "link", "settings": { "label": "Recetas (Rx)", "url": "/pages/recetas" } }
+      },
+      "block_order": ["l1", "l2", "l3", "l4", "l5", "l6"]
+    }
+  },
+  "order": ["main"]
+}
