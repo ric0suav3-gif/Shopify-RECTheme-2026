@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "store": {
+      "type": "skg-store",
+      "settings": {
+        "show_filters": true,
+        "show_hero": false,
+        "products_per_page": 24
+      }
+    }
+  },
+  "order": ["store"]
+}
