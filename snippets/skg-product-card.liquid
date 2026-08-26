@@ -1,0 +1,158 @@
+{%- comment -%}
+  Skingroup — Clinical Radiance Product Card (snippet)
+  Snippet file: snippets/skg-product-card.liquid
+  Used by skg-best-sellers.liquid. Keep the markup in sync with the React ProductCard.
+{%- endcomment -%}
+
+{%- comment -%}Discount is driven by product tags HS30 / HS40 / HS50 (the number = % off).{%- endcomment -%}
+{%- assign on_sale = false -%}
+{%- assign discount_percent = 0 -%}
+{%- for tag in product.tags -%}
+  {%- assign t = tag | downcase | strip -%}
+  {%- if t contains 'hs' -%}
+    {%- assign num_part = t | remove: 'hs' | strip -%}
+    {%- assign n = num_part | times: 1 -%}
+    {%- if n > 0 and n <= 90 -%}
+      {%- assign on_sale = true -%}
+      {%- assign discount_percent = n -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if on_sale -%}
+  {%- assign original_price = product.price -%}
+  {%- assign discount_factor = 100 | minus: discount_percent -%}
+  {%- assign discounted_price = original_price | times: discount_factor | divided_by: 100.0 | round -%}
+{%- endif -%}
+{%- assign unavailable = false -%}
+{%- if product.available == false -%}
+  {%- assign unavailable = true -%}
+{%- endif -%}
+
+<article class="skg-pc"{% if unavailable %} data-unavailable{% endif %}>
+  <a href="{{ product.url }}" class="skg-pc__link">
+    <div class="skg-pc__media">
+      {%- if product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          alt="{{ product.title | escape }}"
+          loading="lazy"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}"
+          class="skg-pc__img"
+        >
+      {%- else -%}
+        <div class="skg-pc__noimg">Sin imagen</div>
+      {%- endif -%}
+
+      {%- if on_sale -%}
+        <span class="skg-pc__badge">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          -{{ discount_percent }}%
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- if product.vendor != blank -%}
+      <span class="skg-pc__brand">{{ product.vendor }}</span>
+    {%- endif -%}
+    <h3 class="skg-pc__title">{{ product.title }}</h3>
+    {%- assign vtitle = product.selected_or_first_available_variant.title -%}
+    {%- if vtitle != blank and vtitle != 'Default Title' -%}
+      <span class="skg-pc__size">{{ vtitle | escape }}</span>
+    {%- endif -%}
+
+    <div class="skg-pc__price">
+      {%- if on_sale -%}
+        <span class="skg-pc__now">{{ discounted_price | money }}</span>
+        <span class="skg-pc__was">{{ original_price | money }}</span>
+      {%- else -%}
+        <span class="skg-pc__now">{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+  </a>
+
+  {%- form 'product', product, class: 'skg-pc__form' -%}
+    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" class="skg-pc__btn" {%- if unavailable %} disabled{%- endif %}>
+      {%- if unavailable -%}Agotado{%- else -%}Agregar al Carrito{%- endif -%}
+    </button>
+  {%- endform -%}
+</article>
+
+<script>
+(function(){
+  function refreshAndOpenDrawer(){
+    // Impulse (Archetype): reprint the cart drawer markup, then open the drawer
+    document.dispatchEvent(new CustomEvent('cart:build', { bubbles:true }));
+    if (window.theme && typeof window.theme.CartDrawer === 'function') {
+      try { var cart = new window.theme.CartDrawer(); if (typeof cart.open === 'function') { cart.open(); } }
+      catch(e) {}
+    } else {
+      // Fallback: open the drawer by clicking the cart link
+      var cartLink = document.querySelector('a.cart-link, a[href$="/cart"]');
+      if (cartLink) { cartLink.click(); }
+    }
+  }
+  function bind(){
+    document.querySelectorAll('form.skg-pc__form:not([data-skg-bound])').forEach(function(form){
+      form.dataset.skgBound = '1';
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var btn = form.querySelector('.skg-pc__btn');
+        if(btn.disabled) return;
+        var orig = btn.textContent;
+        btn.disabled = true; btn.textContent = 'Agregando…';
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/javascript' },
+          body: new FormData(form)
+        }).then(function(r){ return r.json(); }).then(function(){
+          btn.textContent = 'Agregado ✓';
+          refreshAndOpenDrawer();
+          setTimeout(function(){ btn.disabled = false; btn.textContent = orig; }, 1200);
+        }).catch(function(){ btn.disabled = false; btn.textContent = orig; form.submit(); });
+      });
+    });
+  }
+  if(document.readyState === 'loading'){ document.addEventListener('DOMContentLoaded', bind); }
+  else { bind(); }
+})();
+</script>
+
+<style>
+  .skg-pc { --brand:#01614a; --bone:#fbf9f7; --ink:#121212; --hairline:#e7e0d6; --offert:#d2462a;
+    font-family:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink);
+    display:flex; flex-direction:column; height:100%; }
+  .skg-pc__link { display:flex; flex-direction:column; height:100%; background:#fff;
+    border-radius:16px; padding:16px; text-decoration:none; transition:transform .5s cubic-bezier(.22,1,.36,1),
+    box-shadow .5s; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .skg-pc__link:hover { transform:translateY(-4px); box-shadow:0 18px 40px -12px rgba(0,0,0,.18); }
+  .skg-pc__media { position:relative; aspect-ratio:1/1; border-radius:12px; overflow:hidden;
+    background:var(--bone); margin-bottom:16px; }
+  .skg-pc__img { width:100%; height:100%; object-fit:contain; padding:16px;
+    transition:transform .7s cubic-bezier(.22,1,.36,1); }
+  .skg-pc__link:hover .skg-pc__img { transform:scale(1.04); }
+  .skg-pc__noimg { width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    color:rgba(18,18,18,.4); font-size:13px; }
+  .skg-pc__badge { position:absolute; top:8px; left:8px; display:inline-flex; align-items:center;
+    gap:4px; background:var(--offert); color:#fff; font-size:10px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.14em; padding:6px 10px; border-radius:6px; }
+  .skg-pc__brand { font-size:11px; text-transform:uppercase; letter-spacing:.16em;
+    font-weight:700; color:var(--brand); margin-bottom:4px; }
+  .skg-pc__title { font-size:14px; font-weight:600; letter-spacing:.01em;
+    line-height:1.35; margin:0 0 4px; display:-webkit-box; -webkit-line-clamp:2;
+    -webkit-box-orient:vertical; overflow:hidden; }
+  .skg-pc__size { font-size:12px; color:rgba(18,18,18,.55); margin-bottom:8px; }
+  .skg-pc[data-unavailable] .skg-pc__link { opacity:.55; }
+  .skg-pc[data-unavailable] .skg-pc__media { filter:grayscale(1); }
+  .skg-pc__price { display:flex; align-items:baseline; gap:8px; margin-top:auto; margin-bottom:12px; }
+  .skg-pc__now { font-size:16px; font-weight:700; }
+  .skg-pc__was { font-size:14px; color:rgba(18,18,18,.5); text-decoration:line-through; }
+  .skg-pc__form { margin:0; }
+  .skg-pc__btn { width:100%; height:44px; border-radius:999px; font-size:12px; font-weight:600;
+    text-transform:uppercase; letter-spacing:.12em; color:var(--brand); background:transparent;
+    border:1px solid var(--brand); cursor:pointer; transition:background .3s, color .3s; }
+  .skg-pc__btn:hover:not(:disabled) { background:var(--brand); color:#fff; }
+  .skg-pc__btn:disabled { opacity:.5; cursor:not-allowed; }
+</style>
