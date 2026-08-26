@@ -1,0 +1,188 @@
+{%- comment -%}
+  Skingroup — Footer (Clinical Radiance)
+  Archivo: sections/skg-footer.liquid
+  Todo el contenido (teléfonos, email, horarios, enlaces, redes, copyright)
+  es editable desde el editor de Shopify (Customize → Footer).
+{%- endcomment -%}
+
+<footer class="skg-foot" style="--bg:{{ section.settings.bg_color }};--ink:{{ section.settings.text_color }};--btn:{{ section.settings.btn_color }};--hair:#8c8c8c;">
+  <div class="skg-foot__inner">
+    {%- if section.settings.intro != blank -%}
+    <p class="skg-foot__intro">{{ section.settings.intro | escape }}</p>
+    {%- endif -%}
+
+    <div class="skg-foot__grid">
+      {%- comment -%} COLUMNA 1 — CONTÁCTANOS {%- endcomment -%}
+      <div class="skg-foot__col">
+        {%- if section.settings.contact_title != blank -%}
+        <h3 class="skg-foot__h">{{ section.settings.contact_title | escape }}</h3>
+        {%- endif -%}
+        <ul class="skg-foot__list">
+          {%- if section.settings.contact_label != blank -%}<li>{{ section.settings.contact_label | escape }}</li>{%- endif -%}
+          {%- if section.settings.phone != blank -%}<li>{{ section.settings.phone | escape }}</li>{%- endif -%}
+          {%- if section.settings.whatsapp != blank -%}<li>{{ section.settings.whatsapp | escape }}</li>{%- endif -%}
+          {%- if section.settings.email != blank -%}<li>{{ section.settings.email | escape }}</li>{%- endif -%}
+        </ul>
+        {%- if section.settings.branches_label != blank -%}
+        <a href="{{ section.settings.branches_link | default: '#' }}" class="skg-foot__branches">{{ section.settings.branches_label | escape }}</a>
+        {%- endif -%}
+        {%- if section.settings.team_label != blank -%}
+        <a href="{{ section.settings.team_link | default: '#' }}" class="skg-foot__team">{{ section.settings.team_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} COLUMNA 2 — HORARIOS + BÚSQUEDA + REDES {%- endcomment -%}
+      <div class="skg-foot__col">
+        {%- if section.settings.hours_title != blank -%}
+        <h3 class="skg-foot__h">{{ section.settings.hours_title | escape }}</h3>
+        {%- endif -%}
+        <ul class="skg-foot__list">
+          {%- if section.settings.hours_weekday != blank -%}<li>{{ section.settings.hours_weekday | escape }}</li>{%- endif -%}
+          {%- if section.settings.hours_saturday != blank -%}<li>{{ section.settings.hours_saturday | escape }}</li>{%- endif -%}
+        </ul>
+
+        {%- if section.settings.show_search -%}
+        <form action="{{ routes.search_url }}" method="get" class="skg-foot__search" role="search">
+          <input type="hidden" name="type" value="product">
+          <input type="search" name="q" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="Buscar">
+          <button type="submit" aria-label="Buscar">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+        </form>
+        {%- endif -%}
+
+        {%- if section.settings.social_title != blank -%}
+        <h3 class="skg-foot__h skg-foot__h--mt">{{ section.settings.social_title | escape }}</h3>
+        {%- endif -%}
+        <div class="skg-foot__social">
+          {%- if section.settings.social_facebook != blank -%}<a href="{{ section.settings.social_facebook | escape }}" aria-label="Facebook" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12z"/></svg></a>{%- endif -%}
+          {%- if section.settings.social_instagram != blank -%}<a href="{{ section.settings.social_instagram | escape }}" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>{%- endif -%}
+          {%- if section.settings.social_tiktok != blank -%}<a href="{{ section.settings.social_tiktok | escape }}" aria-label="TikTok" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 2v3.2a5 5 0 0 0 4 4.8v3a8 8 0 0 1-4-1.1V16a6 6 0 1 1-6-6v3a3 3 0 1 0 3 3V2h3z"/></svg></a>{%- endif -%}
+          {%- if section.settings.social_youtube != blank -%}<a href="{{ section.settings.social_youtube | escape }}" aria-label="YouTube" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.8-.5-5.6a3 3 0 0 0-2.1-2.1C18.6 3.8 12 3.8 12 3.8s-6.6 0-8.4.5A3 3 0 0 0 1.5 6.4 40 40 0 0 0 1 12c0 3.8.5 5.6.5 5.6a3 3 0 0 0 2.1 2.1c1.8.5 8.4.5 8.4.5s6.6 0 8.4-.5a3 3 0 0 0 2.1-2.1c.5-1.8.5-5.6.5-5.6zM10 15.5v-7l6 3.5z"/></svg></a>{%- endif -%}
+          {%- if section.settings.social_whatsapp != blank -%}<a href="{{ section.settings.social_whatsapp | escape }}" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8 1-.1.1-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.5l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.2c0 1.3 1 2.6 1.1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.7 3 .6.5-.1 1.4-.6 1.6-1.2.2-.6.2-1 .1-1.2z"/></svg></a>{%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} COLUMNA 3 — ENLACES + LOGO {%- endcomment -%}
+      <div class="skg-foot__col skg-foot__col--end">
+        {%- if section.settings.links_title != blank -%}
+        <h3 class="skg-foot__h">{{ section.settings.links_title | escape }}</h3>
+        {%- endif -%}
+        <ul class="skg-foot__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'link' and block.settings.label != blank -%}
+            <li><a href="{{ block.settings.url | default: '#' }}">{{ block.settings.label | escape }}</a></li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {%- if section.settings.brand_name != blank -%}
+        <span class="skg-foot__brand">{{ section.settings.brand_name | escape }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="skg-foot__bottom">
+      <p>{{ section.settings.copyright | escape }}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .skg-foot{background:var(--bg);color:var(--ink);font-family:'Inter',ui-sans-serif,system-ui,sans-serif;}
+  .skg-foot *{box-sizing:border-box;}
+  .skg-foot a{color:inherit;text-decoration:none;}
+  .skg-foot__inner{max-width:1400px;margin:0 auto;padding:56px 20px 24px;}
+  .skg-foot__intro{max-width:760px;margin:0 auto 48px;text-align:center;font-size:14px;line-height:1.7;opacity:.75;}
+  .skg-foot__grid{display:grid;grid-template-columns:1fr;gap:40px;margin-bottom:48px;}
+  .skg-foot__h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.18em;margin:0 0 20px;}
+  .skg-foot__h--mt{margin-top:28px;}
+  .skg-foot__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:14px;opacity:.8;}
+  .skg-foot__list a:hover{opacity:1;font-weight:600;}
+  .skg-foot__branches{display:inline-block;margin-top:16px;font-weight:700;font-size:14px;}
+  .skg-foot__team{display:inline-flex;align-items:center;justify-content:center;margin-top:18px;height:46px;padding:0 26px;border-radius:999px;background:var(--btn);color:#fff;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;transition:opacity .3s;}
+  .skg-foot__team:hover{opacity:.88;}
+  .skg-foot__search{display:flex;align-items:center;border:1px solid var(--hair);border-radius:999px;background:#fff;margin-top:24px;overflow:hidden;}
+  .skg-foot__search input{flex:1;border:0;background:none;outline:none;padding:0 18px;height:44px;font-size:13px;color:#1a1a1a;}
+  .skg-foot__search button{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;background:none;color:#666;cursor:pointer;}
+  .skg-foot__social{display:flex;gap:12px;margin-top:16px;}
+  .skg-foot__social a{width:42px;height:42px;border-radius:50%;border:1px solid var(--hair);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:all .3s;}
+  .skg-foot__social a:hover{background:var(--btn);color:#fff;border-color:var(--btn);}
+  .skg-foot__col--end{display:flex;flex-direction:column;align-items:flex-start;}
+  .skg-foot__brand{margin-top:28px;font-size:22px;font-weight:800;letter-spacing:-.01em;}
+  .skg-foot__bottom{border-top:1px solid rgba(0,0,0,.12);padding-top:20px;text-align:center;font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.6;}
+  @media (min-width:768px){
+    .skg-foot__grid{grid-template-columns:1fr 1fr 1fr;gap:48px;}
+    .skg-foot__col--end{align-items:flex-end;text-align:right;}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Skingroup Footer",
+  "tag": "footer",
+  "class": "section-skg-footer",
+  "settings": [
+    { "type": "header", "content": "Texto superior" },
+    { "type": "textarea", "id": "intro", "label": "Párrafo de introducción", "default": "Descubre la excelencia en el cuidado de tu piel con los dermatólogos en Monterrey de Skingroup. Con años de experiencia y un enfoque innovador, somos líderes a nivel nacional en dermatología. Confía en nuestros especialistas para obtener resultados sobresalientes y un tratamiento personalizado que se adapte a tus necesidades." },
+
+    { "type": "header", "content": "Columna 1 — Contáctanos" },
+    { "type": "text", "id": "contact_title", "label": "Título", "default": "CONTÁCTANOS" },
+    { "type": "text", "id": "contact_label", "label": "Etiqueta de atención", "default": "Atención al Cliente:" },
+    { "type": "text", "id": "phone", "label": "Teléfono (solo llamadas)", "default": "Solo llamadas: (81) 8335 7495" },
+    { "type": "text", "id": "whatsapp", "label": "WhatsApp", "default": "WhatsApp: (81) 2207 5251" },
+    { "type": "text", "id": "email", "label": "Correo", "default": "atencion_cliente@skingroup.com.mx" },
+    { "type": "text", "id": "branches_label", "label": "Texto enlace sucursales", "default": "Conoce Nuestras Sucursales" },
+    { "type": "url", "id": "branches_link", "label": "URL sucursales" },
+    { "type": "text", "id": "team_label", "label": "Texto botón equipo", "default": "UNETE A NUESTRO EQUIPO" },
+    { "type": "url", "id": "team_link", "label": "URL botón equipo" },
+
+    { "type": "header", "content": "Columna 2 — Horarios y búsqueda" },
+    { "type": "text", "id": "hours_title", "label": "Título horarios", "default": "HORARIOS" },
+    { "type": "text", "id": "hours_weekday", "label": "Lunes a Viernes", "default": "Lunes a Viernes: 9:00 am - 8:00 pm" },
+    { "type": "text", "id": "hours_saturday", "label": "Sábado", "default": "Sábado: 9:00 am - 3:00 pm" },
+    { "type": "checkbox", "id": "show_search", "label": "Mostrar barra de búsqueda", "default": true },
+    { "type": "text", "id": "search_placeholder", "label": "Placeholder búsqueda", "default": "Busca tratamientos, especialistas o aparatos." },
+    { "type": "text", "id": "social_title", "label": "Título redes sociales", "default": "REDES SOCIALES" },
+    { "type": "text", "id": "social_facebook", "label": "URL Facebook" },
+    { "type": "text", "id": "social_instagram", "label": "URL Instagram" },
+    { "type": "text", "id": "social_tiktok", "label": "URL TikTok" },
+    { "type": "text", "id": "social_youtube", "label": "URL YouTube" },
+    { "type": "text", "id": "social_whatsapp", "label": "URL WhatsApp" },
+
+    { "type": "header", "content": "Columna 3 — Enlaces y marca" },
+    { "type": "text", "id": "links_title", "label": "Título enlaces", "default": "ENLACES" },
+    { "type": "text", "id": "brand_name", "label": "Nombre de marca", "default": "SKINGROUP®" },
+
+    { "type": "header", "content": "Pie de página" },
+    { "type": "text", "id": "copyright", "label": "Texto de copyright", "default": "© 2026 Skingroup®. Todos los derechos reservados. · Developed by REC" },
+
+    { "type": "header", "content": "Colores" },
+    { "type": "color", "id": "bg_color", "label": "Fondo", "default": "#F2EBE8" },
+    { "type": "color", "id": "text_color", "label": "Texto", "default": "#1A1A1A" },
+    { "type": "color", "id": "btn_color", "label": "Botón / acento", "default": "#1D4234" }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Enlace",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Texto del enlace" },
+        { "type": "url", "id": "url", "label": "URL del enlace" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skingroup Footer",
+      "blocks": [
+        { "type": "link", "settings": { "label": "Aviso de Privacidad", "url": "/pages/aviso-de-privacidad" } },
+        { "type": "link", "settings": { "label": "Términos y Condiciones", "url": "/pages/terminos" } },
+        { "type": "link", "settings": { "label": "Envíos y Entregas", "url": "/pages/envios" } },
+        { "type": "link", "settings": { "label": "Devoluciones", "url": "/pages/devoluciones" } },
+        { "type": "link", "settings": { "label": "Productos Auténticos", "url": "/pages/productos-autenticos" } },
+        { "type": "link", "settings": { "label": "Recetas (Rx)", "url": "/pages/recetas" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
