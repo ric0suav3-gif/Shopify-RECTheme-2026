@@ -1,0 +1,95 @@
+{%- comment -%}
+  Skingroup — Concern Tiles
+  Section file: sections/skg-concern-tiles.liquid
+  Six image + label tiles that make "shop by concern" the homepage's main
+  navigation gesture (Acné, Manchas, Rosácea, Anti-edad, Anticaída, Solar).
+  Each tile links to a collection or filtered catalog page.
+{%- endcomment -%}
+
+<section class="skg-ct" style="--brand:#01614a; --ink:#121212; --hairline:#e7e0d6; --bone:#fbf9f7;">
+  {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+    <div class="skg-ct__head">
+      {%- if section.settings.eyebrow != blank -%}<span class="skg-ct__eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="skg-ct__title">{{ section.settings.heading | escape }}</h2>{%- endif -%}
+    </div>
+  {%- endif -%}
+
+  <div class="skg-ct__grid">
+    {%- for block in section.blocks -%}
+      {%- if block.settings.label != blank -%}
+        <a href="{{ block.settings.link | default: '/collections/all' }}" class="skg-ct__tile" {{ block.shopify_attributes }}>
+          <div class="skg-ct__media">
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.label | escape }}" loading="lazy" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" class="skg-ct__img">
+            {%- else -%}
+              <div class="skg-ct__placeholder"></div>
+            {%- endif -%}
+            <div class="skg-ct__overlay"></div>
+          </div>
+          <span class="skg-ct__label">{{ block.settings.label | escape }}</span>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .skg-ct { font-family:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink);
+    max-width:1400px; margin:0 auto; padding:40px 16px 64px; }
+  .skg-ct__head { margin-bottom:28px; }
+  .skg-ct__eyebrow { display:block; font-size:11px; letter-spacing:.24em; text-transform:uppercase;
+    font-weight:600; color:var(--brand); margin-bottom:8px; }
+  .skg-ct__title { font-size:clamp(24px,3vw,32px); font-weight:800; text-transform:uppercase;
+    letter-spacing:-.01em; margin:0; }
+  .skg-ct__grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .skg-ct__tile { position:relative; display:block; border-radius:16px; overflow:hidden;
+    text-decoration:none; aspect-ratio:4/5; background:var(--bone); }
+  .skg-ct__media { position:absolute; inset:0; }
+  .skg-ct__img { width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.22,1,.36,1); }
+  .skg-ct__tile:hover .skg-ct__img { transform:scale(1.05); }
+  .skg-ct__placeholder { position:absolute; inset:0;
+    background:radial-gradient(circle at 40% 30%, rgba(1,97,74,.18), transparent 65%); }
+  .skg-ct__overlay { position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 55%, transparent 100%); }
+  .skg-ct__label { position:absolute; left:0; right:0; bottom:0; padding:16px 18px;
+    color:#fff; font-size:15px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  @media (min-width:640px){ .skg-ct__grid { grid-template-columns:repeat(3,1fr); gap:18px; } }
+  @media (min-width:990px){ .skg-ct__grid { grid-template-columns:repeat(6,1fr); gap:20px; } .skg-ct__tile { aspect-ratio:3/4; } }
+</style>
+
+{% schema %}
+{
+  "name": "Skingroup Concern Tiles",
+  "tag": "section",
+  "class": "section-skg-ct",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Compra por preocupación" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "¿Qué necesita tu piel?" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Preocupación",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Acné" },
+        { "type": "text", "id": "link", "label": "Enlace", "default": "/collections/all?filter.p.tag=acne" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skingroup Concern Tiles",
+      "blocks": [
+        { "type": "tile", "settings": { "label": "Acné", "link": "/collections/all?filter.p.tag=acne" } },
+        { "type": "tile", "settings": { "label": "Manchas", "link": "/collections/all?filter.p.tag=manchas" } },
+        { "type": "tile", "settings": { "label": "Rosácea", "link": "/collections/all?filter.p.tag=rosacea" } },
+        { "type": "tile", "settings": { "label": "Anti-edad", "link": "/collections/all?filter.p.tag=anti-edad" } },
+        { "type": "tile", "settings": { "label": "Anticaída", "link": "/collections/all?filter.p.tag=anticaida" } },
+        { "type": "tile", "settings": { "label": "Protección Solar", "link": "/collections/all?filter.p.tag=solar" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
