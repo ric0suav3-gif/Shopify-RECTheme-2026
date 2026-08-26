@@ -1,0 +1,67 @@
+{
+  "sections": {
+    "hero": {
+      "type": "skg-hero",
+      "settings": {
+        "eyebrow": "Dermatología Clínica",
+        "heading": "Tu farmacia de la piel",
+        "subheading": "Fórmulas dermatológicas de precisión, seleccionadas por especialistas. Cuidado clínico para piel saludable y radiante.",
+        "button_label": "Explorar Tienda",
+        "button_link": "/collections/all",
+        "button_label_2": "Ver Marcas",
+        "button_link_2": "/pages/marcas"
+      }
+    },
+    "trust": {
+      "type": "skg-trust-strip",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "dermatologist", "title": "Seleccionado por dermatólogos", "subtitle": "Fórmulas clínicas elegidas por especialistas" } },
+        "t2": { "type": "item", "settings": { "icon": "authentic", "title": "Productos 100% originales", "subtitle": "Directo del laboratorio, sin falsificaciones" } },
+        "t3": { "type": "item", "settings": { "icon": "shipping", "title": "Envíos a todo México", "subtitle": "Entrega de 2 a 5 días hábiles" } },
+        "t4": { "type": "item", "settings": { "icon": "branches", "title": "Sucursales en Monterrey", "subtitle": "Recoge tu pedido en farmacia física" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"]
+    },
+    "concerns": {
+      "type": "skg-concern-tiles",
+      "settings": {
+        "eyebrow": "Compra por preocupación",
+        "heading": "¿Qué necesita tu piel?"
+      },
+      "blocks": {
+        "c1": { "type": "tile", "settings": { "label": "Acné", "link": "/collections/all?filter.p.tag=acne" } },
+        "c2": { "type": "tile", "settings": { "label": "Manchas", "link": "/collections/all?filter.p.tag=manchas" } },
+        "c3": { "type": "tile", "settings": { "label": "Rosácea", "link": "/collections/all?filter.p.tag=rosacea" } },
+        "c4": { "type": "tile", "settings": { "label": "Anti-edad", "link": "/collections/all?filter.p.tag=anti-edad" } },
+        "c5": { "type": "tile", "settings": { "label": "Anticaída", "link": "/collections/all?filter.p.tag=anticaida" } },
+        "c6": { "type": "tile", "settings": { "label": "Protección Solar", "link": "/collections/all?filter.p.tag=solar" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"]
+    },
+    "newarrivals": {
+      "type": "skg-best-sellers",
+      "settings": {
+        "eyebrow": "Recién Llegado",
+        "heading": "Lo Más Nuevo",
+        "count": 8
+      }
+    },
+    "promos": {
+      "type": "skg-monthly-promos",
+      "settings": {
+        "eyebrow": "Ofertas del Mes",
+        "heading": "Promociones de Agosto",
+        "count": 8
+      }
+    },
+    "brands": {
+      "type": "skg-brand-grid",
+      "settings": {
+        "eyebrow": "Laboratorios Asociados",
+        "heading": "Especialistas Confiables",
+        "count": 8
+      }
+    }
+  },
+  "order": ["hero", "trust", "concerns", "newarrivals", "promos", "brands"]
+}
