@@ -1,0 +1,95 @@
+{%- comment -%}
+  Skingroup — Trust Strip
+  Section file: sections/skg-trust-strip.liquid
+  Four-item trust bar that sits directly under the homepage hero:
+  dermatologist-selected · original products · shipping across Mexico · physical branches.
+  Fully editable via blocks (icon + title + subtitle).
+{%- endcomment -%}
+
+<section class="skg-ts" style="--brand:#01614a; --ink:#121212; --hairline:#e7e0d6;">
+  <div class="skg-ts__inner">
+    {%- for block in section.blocks -%}
+      <div class="skg-ts__item" {{ block.shopify_attributes }}>
+        <span class="skg-ts__icon" aria-hidden="true">
+          {%- case block.settings.icon -%}
+            {%- when 'dermatologist' -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v6"/><path d="M12 22a8 8 0 0 1-8-8c0-3 2-5 4-6"/><path d="M12 22a8 8 0 0 0 8-8c0-3-2-5-4-6"/><path d="M9 8h6"/></svg>
+            {%- when 'authentic' -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+            {%- when 'shipping' -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 4h13v12H1z"/><path d="M14 8h5l3 3v5h-8z"/><circle cx="5.5" cy="18.5" r="1.8"/><circle cx="17.5" cy="18.5" r="1.8"/></svg>
+            {%- when 'branches' -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            {%- when 'leaf' -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 21c0-9 6-15 16-15 0 10-6 16-15 16"/><path d="M5 21c2-4 5-7 9-9"/></svg>
+            {%- else -%}
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/></svg>
+          {%- endcase -%}
+        </span>
+        <div class="skg-ts__text">
+          {%- if block.settings.title != blank -%}
+            <span class="skg-ts__title">{{ block.settings.title | escape }}</span>
+          {%- endif -%}
+          {%- if block.settings.subtitle != blank -%}
+            <span class="skg-ts__sub">{{ block.settings.subtitle | escape }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  .skg-ts { font-family:'Inter',ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink);
+    max-width:1400px; margin:0 auto; padding:8px 16px 40px; }
+  .skg-ts__inner { display:grid; grid-template-columns:1fr; gap:16px;
+    background:#fff; border:1px solid var(--hairline); border-radius:16px; padding:24px; }
+  .skg-ts__item { display:flex; align-items:center; gap:14px; }
+  .skg-ts__icon { flex-shrink:0; width:44px; height:44px; border-radius:50%;
+    background:rgba(1,97,74,.08); color:var(--brand); display:flex; align-items:center; justify-content:center; }
+  .skg-ts__text { display:flex; flex-direction:column; }
+  .skg-ts__title { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  .skg-ts__sub { font-size:12px; color:rgba(18,18,18,.6); margin-top:2px; }
+  @media (min-width:640px){ .skg-ts__inner { grid-template-columns:1fr 1fr; } }
+  @media (min-width:990px){ .skg-ts__inner { grid-template-columns:repeat(4,1fr); gap:24px; padding:28px; } }
+</style>
+
+{% schema %}
+{
+  "name": "Skingroup Trust Strip",
+  "tag": "section",
+  "class": "section-skg-ts",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "dermatologist",
+          "options": [
+            { "value": "dermatologist", "label": "Dermatólogo" },
+            { "value": "authentic", "label": "Producto auténtico" },
+            { "value": "shipping", "label": "Envíos" },
+            { "value": "branches", "label": "Sucursales" },
+            { "value": "leaf", "label": "Hoja" },
+            { "value": "check", "label": "Check" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Seleccionado por dermatólogos" },
+        { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Fórmulas clínicas elegidas por especialistas" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skingroup Trust Strip",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "dermatologist", "title": "Seleccionado por dermatólogos", "subtitle": "Fórmulas clínicas elegidas por especialistas" } },
+        { "type": "item", "settings": { "icon": "authentic", "title": "Productos 100% originales", "subtitle": "Directo del laboratorio, sin falsificaciones" } },
+        { "type": "item", "settings": { "icon": "shipping", "title": "Envíos a todo México", "subtitle": "Entrega de 2 a 5 días hábiles" } },
+        { "type": "item", "settings": { "icon": "branches", "title": "Sucursales en Monterrey", "subtitle": "Recoge tu pedido en farmacia física" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
